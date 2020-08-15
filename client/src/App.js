@@ -2,11 +2,11 @@ import React from 'react';
 import Header from "./components/Header.jsx"
 import Home from "./components/Home.jsx"
 
-function App() {
+function App(props) {
   return (
     <div>
-     <Header/>
-     <Home/>
+     <Header key={"header"}/>
+     <Home key={"home"}/>
     </div>
   );
 }

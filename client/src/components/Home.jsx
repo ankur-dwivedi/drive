@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from "react"
+import Card from "./Card.jsx"
 const axios = require('axios').default;
 
-export default function Home(){
+export default function Home(props){
 
   const[user,setUser]=useState([])
 
@@ -35,17 +36,7 @@ export default function Home(){
             <div className="row">
               {user.map((item)=>{
                 return(
-                  <div className="col-md-4">
-                <div className="card mb-4 shadow-sm">
-                  <svg className="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-                  <title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/>
-                  <text x="50%" y="50%" fill="#eceeef" dy=".3em">{item.real_name}</text>
-                  <text x="50%" y="75%" fill="#fcb603" dy=".1em" >{item.id}</text>
-                  <text x="50%" y="85%" fill="#eceeef" dy=".1em">{item.tz}</text>
-                  </svg>
-                  
-                </div>
-              </div>
+                 <Card key={item.id} item={item}/>
                 )
               })}
              
