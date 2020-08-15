@@ -13,9 +13,10 @@ export default function Card(props){
   const [result,setResult] = useState("");
 
 
+
   let month=["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"]
 
-  const handleClose3 =()=>{setShow(false)}
+  const handleClose3 =()=>{setShow(false);console.log(show)}
   const handleShow3 =()=>setShow(true);
   
   const onChange = date =>{ setDate(date);setCalenderDisplay("none")}
@@ -42,13 +43,16 @@ export default function Card(props){
       else
       setResult(<p style={{fontSize:"0.9rem"}}>{item.real_name+" was not active on "+day+" "+m+" "+year}</p>)
   },[date])
+
+
+
     
  
 
     return(
         // <spam>
-        <div className="col-md-4" style={{cursor:"pointer"}} onClick={()=>handleShow3()}>
-        <div className="card mb-4 shadow-sm">
+        <div className="col-md-4" style={{cursor:"pointer"}} >
+        <div className="card mb-4 shadow-sm" onClick={()=>{setShow(true)}}>
           <svg className="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
           <title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/>
           <text x="50%" y="50%" fill="#eceeef" dy=".3em">{item.real_name}</text>
@@ -58,7 +62,7 @@ export default function Card(props){
           
         </div>
         
-        <Modal show={show}  onHide={handleClose3} style={{top:"7rem"}}>
+        <Modal show={show }  onHide={handleClose3} style={{top:"7rem"}}>
               <Modal.Header style={{ backgroundColor: "#F0F0F0" }}>
                 <Modal.Title style={{fontSize:"1rem"}}>{item.real_name}</Modal.Title>
               </Modal.Header>
@@ -66,7 +70,7 @@ export default function Card(props){
               
               <div className="row ">
                 <div className="col ">
-                <i class="fa fa-calendar" aria-hidden="true" style={{color:"blue"}} onClick={()=>calenderDisplay==="none"?setCalenderDisplay(""):setCalenderDisplay("none")}></i>
+                <i className="fa fa-calendar" aria-hidden="true" style={{color:"blue"}} onClick={()=>calenderDisplay==="none"?setCalenderDisplay(""):setCalenderDisplay("none")}></i>
                 <p style={{fontSize:"0.8rem",color:"blue", display:"inline-block",marginLeft:"2rem",cursor:"pointer"}} onClick={()=>calenderDisplay==="none"?setCalenderDisplay(""):setCalenderDisplay("none")}>{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</p>
                 <center>
                 {result}
@@ -85,8 +89,7 @@ export default function Card(props){
              
                 </Modal.Body>
               <Modal.Footer style={{ border: "0" }}>
-              <p style={{fontSize:"0.9rem",color:"red", display:"inline-block",marginTop:"2rem"}} >{"press Esc or back button to exit"}</p>
-
+              <button className="btn btn-primary" onClick={handleClose3}> close</button>
                </Modal.Footer>
             </Modal>
       </div>
@@ -94,4 +97,3 @@ export default function Card(props){
      
     )
 }
-    // "start": "cd client && npm install && npm run build && cd ../ && node server",
