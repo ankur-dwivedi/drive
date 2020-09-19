@@ -1,35 +1,37 @@
-import React from "react"
+import React,{useState} from "react"
 
 export default function Header(){
+
+  const [navItem,setNavItem]=useState("nav__list");
+  const [nav,setNav]=useState("burger");
+
     return(
-        <header>
-  <div className="collapse bg-dark" id="navbarHeader">
-    <div className="container">
-      <div className="row">
-        <div className="col-sm-8 col-md-7 py-4">
-          <h4 className="text-white">About</h4>
-          <p className="text-muted">A Web Application that shows list of users through a api , application is made using React.js Node.js Express.js . </p>
+      <nav className="nav" onClick={()=>{if(navItem==="nav__list"){
+        setNavItem("nav__list nav__list--active")
+        setNav("burger burger--active")
+      }
+        else{
+        setNavItem("nav__list")
+        setNav("burger")}}}>
+        <div className={nav}>
+          <div className="burger__patty"></div>
         </div>
-        <div className="col-sm-4 offset-md-1 py-4">
-          <h4 className="text-white">Contact</h4>
-          <ul className="list-unstyled">
-            <li><a href="#" className="text-white">9193363429</a></li>
-            <li><a href="#" className="text-white">ankur.dwivedi199714@gmail.com</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="navbar navbar-dark bg-dark shadow-sm">
-    <div className="container d-flex justify-content-between">
-      <a href="/" className="navbar-brand d-flex align-items-center">
-        <strong>TimeSlot</strong>
-      </a>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </div>
-</header>
+
+        <ul className={navItem}>
+          <li className="nav__item">
+            <a href="#1" className="nav__link c-blue"><img src="img/home-icon.png" alt=""/></a>
+          </li>
+          <li className="nav__item">
+            <a href="#2" className="nav__link c-yellow scrolly"><img src="img/about-icon.png" alt=""/></a>
+          </li>
+          <li className="nav__item">
+            <a href="#3" className="nav__link c-red"><img src="img/projects-icon.png" alt=""/></a>
+          </li>
+          <li className="nav__item">
+            <a href="#4" className="nav__link c-green"><img src="img/contact-icon.png" alt=""/></a>
+          </li>
+        </ul>
+      </nav>
+
     )
 }
