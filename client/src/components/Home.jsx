@@ -1,54 +1,66 @@
 import React,{useEffect,useState} from "react"
-import Card from "./Card.jsx"
-const axios = require('axios').default;
+import { NavLink,useHistory} from 'react-router-dom';
 
 export default function Home(props){
 
-  const[user,setUser]=useState([])
+  const [one,setOne]=useState("panel__content");
+
+  let history = useHistory();
+
+  
 
   useEffect(()=>{
-    axios.get("/api/demo")
-    .then((response) => {
-      setUser(response.data.members)
-      console.log(response)
-
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+    setTimeout(()=>{setOne("panel__content panel__content--active")},10)
+      
+    
+  },[]);
+  useEffect(()=>{
+      if(localStorage.getItem("email"))
+          history.push("/main")
     
   },[]);
 
+  const flick=()=>{
+    setOne("panel__content ")
+    setTimeout(()=>{setOne("panel__content panel__content--active")},100)
+  }
+  
+  
+
     return(
-    <main role="main">
-      
-        <section className="jumbotron text-center" style={{margin:0}}>
-          <div className="container">
-            <h1>TimeSlot</h1>
-            <p className="lead text-muted">Click on the card to view aactivity of user ,all registered users will be shown below </p>
-           
-          </div>
-        </section>
-      
-        <div className="album py-5 bg-light" >
-          <div className="container">
-      
-            <div className="row">
-              {user.map((item)=>{
-                return(
-                 <Card key={item.id} item={item}/>
-                )
-              })}
-             
-             
-      
+      <div>
+      <section className="panel b-blue" id="1" >
+        <article className="panel__wrapper">
+          <div className={one}>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-8 col-md-offset-2">
+                  <div className="home-content">
+                    <div className="home-heading" onClick={flick} style={{cursor:"pointer"}}>
+                      <h1><em>Virtual</em> Drive</h1>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="home-box-content" style={{padding:"60px"}}>
+                          <div className="left-text"style={{width:"100%"}}>
+                            <div className="primary-button" style={{textAlign:"justify"}}>
+                              <NavLink to="/login" style={{width:"20rem",height:"6rem",textAlign:"center",fontSize:"initial",paddingTop:"17px",display:"inline-block"}}>Login</NavLink>
+                              <span style={{margin:"2rem",color:"#fff"}}>or</span> 
+                               <NavLink to="/signup" style={{width:"20rem",height:"6rem",textAlign:"center",fontSize:"initial",paddingTop:"17px",display:"inline-block"}}>Sign up</NavLink>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      
-      </main>
-      
+        </article>
+      </section>
      
+      </div>
     )
 }
-    // "start": "cd client && npm install && npm run build && cd ../ && node server",

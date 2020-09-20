@@ -1,12 +1,14 @@
 import React,{useEffect,useState} from "react"
+import Carousel from "react-multi-carousel";
+import 'react-multi-carousel/lib/styles.css';
 const axios = require('axios').default;
 
-export default function Home(props){
+export default function Main(props){
 
  
-  const [one,setOne]=useState("panel__content");
+  const [one,setOne]=useState("panel__content panel__content--active");
   const [two,setTwo]=useState("panel__content");
-  const [three,setThree]=useState("panel__content");
+  const [three,setThree]=useState("panel__content ");
   const [four,setFour]=useState("panel__content");
 
   
@@ -18,9 +20,6 @@ export default function Home(props){
     console.log( el,rect)
     return (
         (rect.top >= -rect.height/1.7  && rect.top <= 0 )|| (rect.top >= 0 && rect.top <= rect.height/1.7)
-        // rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        // rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-
     );
     
     }
@@ -47,12 +46,35 @@ document.addEventListener('scroll', function () {
 }, {
     passive: true
 });
+
+
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 2000, min: 3000 },
+    items: 20,
+
+
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
+
     return(
     
     
     <div>
-        
-
         <section className="panel b-blue" id="1">
           <article className="panel__wrapper">
             <div className={one}>
@@ -61,14 +83,14 @@ document.addEventListener('scroll', function () {
                   <div className="col-md-8 col-md-offset-2">
                     <div className="home-content">
                       <div className="home-heading">
-                        <h1><em>Stak</em> HTML CSS</h1>
+                        <h1><em>Virtual</em>Drive</h1>
                       </div>
                       <div className="row">
                         <div className="col-md-12">
                           <div className="home-box-content">
                             <div className="left-text">
-                              <h4>New <em>Stacked</em> Template</h4>
-                              <p>Stacked HTML CSS Template is provided by TemplateMo website. You can edit and use this template for any purpose. Please mention your friends about our website. Thank you.</p>
+                              <h4>New <em>Virtual</em> Drive</h4>
+                              <p>Upload your document and keep it safe in Virtual Drive , access it fom anywhere at any time.</p>
                               <div className="primary-button">
                                 <a href="#2">Discover More</a>
                               </div>
@@ -86,7 +108,7 @@ document.addEventListener('scroll', function () {
             </div>
           </article>
         </section>
-        <section className="panel b-yellow" id="2" onFocus={()=>alert("2")}>
+        <section className="panel b-yellow" id="2" >
           <article className="panel__wrapper">
             <div className={two} >
               <div className="container">
@@ -131,19 +153,39 @@ document.addEventListener('scroll', function () {
                       </div>
                       <div className="row">
                         <div className="col-md-12">
-                          <div className="owl-carousel owl-theme projects-container">
-                            <div>
-                              <div className="project-item">
-                                <a href="img/project-item-01.jpg" data-lightbox="image-1"><img src="img/project-item-01.jpg" alt=""/></a>
-                                <div className="text-content">
-                                  <h4>Work Smart</h4>
-                                  <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                          {/* <div className="owl-carousel owl-theme projects-container">
+                            <div> */}
+                            <Carousel responsive={responsive}
+                                        showDots={true}
+                                        arrows={true}
+                                        additionalTransfrom={0}
+                                        centerMode={false}
+                                        className="owl-carousel owl-theme projects-container"
+                                        containerClass="container-with-dots"
+                                        autoPlay={ false}
+                                        autoPlaySpeed={4500}
+                                        dotListClass=""
+                                        draggable={true}
+                                        focusOnSelect={false}
+                                        infinite
+                                        itemClass=""
+                                        keyBoardControl
+                                        minimumTouchDrag={80}
+                                        renderButtonGroupOutside={false}
+                                        renderDotsOutside={true}
+                                        >
+                                        <div>
+                                          <div className="project-item">
+                                            <a href="img/project-item-01.jpg" data-lightbox="image-1"><img src="img/project-item-01.jpg" alt=""/></a>
+                                            <div className="text-content">
+                                                <h4>Work Smart</h4>
+                                                <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
+                                                <div className="primary-button">
+                                                      <a href="#">Discover More</a>
+                                                </div>
+                                            </div>
+                                          </div>
+                                        </div>
                             <div>
                               <div className="project-item">
                                 <a href="img/project-item-02.jpg" data-lightbox="image-1"><img src="img/project-item-02.jpg" alt=""/></a>
@@ -215,8 +257,11 @@ document.addEventListener('scroll', function () {
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
+                              </div>
+                                        </Carousel>
+                              
+                            {/* </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -276,15 +321,6 @@ document.addEventListener('scroll', function () {
             </div>
           </article>
         </section>
-      
-        {/* <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"></script>')</script>
-       
-        <script src="js/vendor/bootstrap.min.js"></script>
-
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script> */}
-
     </div>
 
      
