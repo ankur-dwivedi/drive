@@ -273,16 +273,14 @@ var filename =req.body.filename;
         });
       }
 
-        try{
+        
           const readstream = gfs.createReadStream(file.filename);
           readstream.pipe( fs.createWriteStream('c:\\demo\\'+file.filename)).on('finish', function() {
           console.log('done!');
+          
         });
+        readstream.pipe(res)
   
-      
-        }catch(err){
-
-        }
       
 
     });
