@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react"
+import React,{useEffect,useState,useRef} from "react"
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css';
 const axios = require('axios').default;
@@ -10,20 +10,74 @@ export default function Main(props){
   const [two,setTwo]=useState("panel__content");
   const [three,setThree]=useState("panel__content ");
   const [four,setFour]=useState("panel__content");
-
+  const [data,setData]=useState([]);
+  const input=useRef()
   
+  useEffect(()=>{
+    setData(
+      <div>
+                                          <div className="project-item">
+                                            <div className="text-content">
+                                                <h4>Work Smart</h4>
+                                                <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
+                                                <div className="primary-button">
+                                                      <a href="#">Discover More</a>
+                                                </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                           
+    )
+    axios.post("/api/file",{
+      "email": localStorage.getItem("email")
+     })
+     .then(function (response) {
+      console.log(response.data)
+       let temp=[]
+       for(let x=0;x<Object.keys(response.data).length;x++){
+        temp.push(
+                    <div>
+                      <div className="project-item">
+                        {/* <a href="img/project-item-01.jpg" data-lightbox="image-1"><img src="img/project-item-01.jpg" alt=""/></a> */}
+                        <div className="text-content">
+                            <h4>{response.data[x].filename.split("-")[1]}</h4>
+                            <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
+                            <div className="primary-button">
+                                  <a onClick={()=>download(response.data[x].filename)}>Download</a>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+        )
+       }
+       setData(temp)
+       
+     })
+     .catch(function (error) {
+       console.log(error);
+     });
+  },[])
 
+  function download(file){
+    axios.post("/api/file/download",{
+      "filename": file
+     })
+     .then(function (response) {
+      
+     })
+     .catch(function (error) {
+       console.log(error);
+     });
+  }
 
   function isInViewport(el) {
     if(el!==null){
     const rect = el.getBoundingClientRect();
-    console.log( el,rect)
     return (
         (rect.top >= -rect.height/1.7  && rect.top <= 0 )|| (rect.top >= 0 && rect.top <= rect.height/1.7)
     );
     
     }
-    console.log(el)
     
 }
 
@@ -71,6 +125,38 @@ const responsive = {
   }
 };
 
+var bodyFormData = new FormData();
+function handleChange(event) {
+  bodyFormData.append('file', input.current.files[0]);
+}
+
+
+function upload(){
+  axios.post(" /api/currrent_user",{
+    "email": localStorage.getItem("email")
+   })
+   .then(function (response) {
+    
+   })
+   .catch(function (error) {
+     console.log(error);
+   });
+  axios({
+    method: 'post',
+    url: '/api/upload',
+    data: bodyFormData,
+    headers: {'Content-Type': 'multipart/form-data' }
+    })
+    .then(function (response) {
+        //handle success
+        console.log(response);
+    })
+    .catch(function (response) {
+        //handle error
+        console.log(response);
+    });
+  }
+
     return(
     
     
@@ -90,9 +176,9 @@ const responsive = {
                           <div className="home-box-content">
                             <div className="left-text">
                               <h4>New <em>Virtual</em> Drive</h4>
-                              <p>Upload your document and keep it safe in Virtual Drive , access it fom anywhere at any time.</p>
+                              <p>Upload your document and keep it safe in Virtual Drive , click on upload to add new documents.</p>
                               <div className="primary-button">
-                                <a href="#2">Discover More</a>
+                              <a href="#4">Upload</a>
                               </div>
                             </div>
                             <div className="right-image">
@@ -116,20 +202,20 @@ const responsive = {
                   <div className="col-md-8 col-md-offset-2">
                     <div className="about-content">
                       <div className="heading">
-                        <h4>About us</h4>
+                        <h4>Profile</h4>
                       </div>
                       <div className="row">
                         <div className="col-md-12">
                           <div className="about-box-content">
-                            <img src="img/about-image.png" alt=""/>
+                            <img src="img/home2.jpg" alt=""/>
                           </div>
                         </div>
                         <div className="col-md-7 col-md-offset-5">
                           <div className="about-box-text">
-                            <h4>Curabitur varius sapien</h4>
-                            <p>Please feel free to contact us if you have any question or suggestion about our free templates. Thank you. Template redistribution is <strong>NOT allowed</strong>.</p>
+                            <h4>{localStorage.getItem("email")}</h4>
+                            <p>Welcome <strong>{localStorage.getItem("email")}</strong> access your documents from anywhere at any time.</p>
                             <div className="primary-button">
-                              <a href="#3">Discover More</a>
+                            <a href="#3">Discover More</a>
                             </div>
                           </div>
                         </div>
@@ -152,7 +238,7 @@ const responsive = {
                         <h4>Recent Projects</h4>
                       </div>
                       <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12" style={{height:"28rem"}}>
                           {/* <div className="owl-carousel owl-theme projects-container">
                             <div> */}
                             <Carousel responsive={responsive}
@@ -174,9 +260,9 @@ const responsive = {
                                         renderButtonGroupOutside={false}
                                         renderDotsOutside={true}
                                         >
-                                        <div>
+                                        {data}
+                                        {/* <div>
                                           <div className="project-item">
-                                            <a href="img/project-item-01.jpg" data-lightbox="image-1"><img src="img/project-item-01.jpg" alt=""/></a>
                                             <div className="text-content">
                                                 <h4>Work Smart</h4>
                                                 <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -188,7 +274,6 @@ const responsive = {
                                         </div>
                             <div>
                               <div className="project-item">
-                                <a href="img/project-item-02.jpg" data-lightbox="image-1"><img src="img/project-item-02.jpg" alt=""/></a>
                                 <div className="text-content">
                                   <h4>Creative Idea</h4>
                                   <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -200,7 +285,6 @@ const responsive = {
                             </div>
                             <div>
                               <div className="project-item">
-                                <a href="img/project-item-03.jpg" data-lightbox="image-1"><img src="img/project-item-03.jpg" alt=""/></a>
                                 <div className="text-content">
                                   <h4>New Thought</h4>
                                   <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -212,7 +296,6 @@ const responsive = {
                             </div>
                             <div>
                               <div className="project-item">
-                                <a href="img/project-item-04.jpg" data-lightbox="image-1"><img src="img/project-item-04.jpg" alt=""/></a>
                                 <div className="text-content">
                                   <h4>Next Moment</h4>
                                   <p>Lorem ipsum dolor sit amet, adipis scing elit etiam sit amet ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -224,7 +307,6 @@ const responsive = {
                             </div>
                             <div>
                               <div className="project-item">
-                                <a href="img/project-item-05.jpg" data-lightbox="image-1"><img src="img/project-item-05.jpg" alt=""/></a>
                                 <div className="text-content">
                                   <h4>Artwork</h4>
                                   <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -236,7 +318,6 @@ const responsive = {
                             </div>
                             <div>
                               <div className="project-item">
-                                <a href="img/project-item-06.jpg" data-lightbox="image-1"><img src="img/project-item-06.jpg" alt=""/></a>
                                 <div className="text-content">
                                   <h4>Sixth Box</h4>
                                   <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -248,7 +329,6 @@ const responsive = {
                             </div>
                             <div>
                               <div className="project-item">
-                                <a href="img/project-item-07.jpg" data-lightbox="image-1"><img src="img/project-item-07.jpg" alt=""/></a>
                                 <div className="text-content">
                                   <h4>Item #7</h4>
                                   <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
@@ -257,7 +337,7 @@ const responsive = {
                                   </div>
                                 </div>
                               </div>
-                              </div>
+                              </div> */}
                                         </Carousel>
                               
                             {/* </div>
@@ -279,32 +359,25 @@ const responsive = {
                   <div className="col-md-8 col-md-offset-2">
                     <div className="contact-content">
                       <div className="heading">
-                        <h4>Contact us</h4>
+                        <h4>Upload Document</h4>
                       </div>
                       <div className="row">
                         <div className="col-md-8">
                           <div className="contat-form">
-                            <form id="contact" action="" method="post">
+                            {/* <form id="contact" action="/api/upload" method="POST" enctype="multipart/form-data"> */}
+                             <div>
+                              <input type="file" name="file" id="file" onChange={handleChange} ref={input} class="custom-file-input" accept=".pdf"/>
+                              {/* <label for="file" class="custom-file-label">Choose File</label> */}
                               <fieldset>
-                                <input name="name" type="text" className="form-control" id="name" placeholder="Your Name" required=""/>
+                                <button  id="form-submit" className="btn" onClick={upload}>Upload</button>
                               </fieldset>
-                              <fieldset>
-                                <input name="email" type="email" className="form-control" id="email" placeholder="Email" required=""/>
-                              </fieldset>
-                              <fieldset>
-                                <textarea name="message" rows="6" className="form-control" id="message" placeholder="Message" required=""></textarea>
-                              </fieldset>
-                              <fieldset>
-                                <button type="submit" id="form-submit" className="btn">Send Message</button>
-                              </fieldset>
-                            </form>
+                            </div>
+                            {/* </form> */}
                           </div>
                         </div>
                         <div className="col-md-4">
                           <div className="more-info">
-                            <p>Nunc purus ligula, ullamcorper id velit id, vestibulum auc sapien. Sed quis mauris eget sem imperdiet rhoncus.<br/><br/>
-                            <em>880 Etiam mauris erat,
-								<br/>Vestibulum eu augue nec, 10940</em></p>
+                            <p>Only pdf documents can be uploaded.</p>
                           </div>
                         </div>
                       </div>
@@ -312,8 +385,7 @@ const responsive = {
                   </div>
                   <div className="col-md-12">
                     <div className="footer">
-                      <p>Copyright &copy; 2020 Your Company 
-                      | Design: TemplateMo</p>
+                    <p>Copyright &copy; 2020 Ankur Dwivedi</p>
                     </div>
                   </div>
                 </div>

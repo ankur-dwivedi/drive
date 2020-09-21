@@ -41,12 +41,12 @@ export default function Home(props){
                     </div>
                     <div className="row">
                       <div className="col-md-12">
-                        <div className="home-box-content" style={{padding:"60px"}}>
+                        <div className="home-box-content" style={{padding:"60px",backgroundColor:"rgba(64, 81, 104, 0.42)"}}>
                           <div className="left-text"style={{width:"100%"}}>
                             <div className="primary-button" style={{textAlign:"justify"}}>
-                              <NavLink to="/login" style={{width:"20rem",height:"6rem",textAlign:"center",fontSize:"initial",paddingTop:"17px",display:"inline-block"}}>Login</NavLink>
+                              <NavLink to="/login" style={{width:"20rem",height:"6rem",textAlign:"center",fontSize:"initial",paddingTop:"17px",display:"inline-block",backgroundColor:"rgba(179, 30, 35, 0.9)"}}>Login</NavLink>
                               <span style={{margin:"2rem",color:"#fff"}}>or</span> 
-                               <NavLink to="/signup" style={{width:"20rem",height:"6rem",textAlign:"center",fontSize:"initial",paddingTop:"17px",display:"inline-block"}}>Sign up</NavLink>
+                               <NavLink to="/signup" style={{width:"20rem",height:"6rem",textAlign:"center",fontSize:"initial",paddingTop:"17px",display:"inline-block",backgroundColor:"rgba(179, 30, 35, 0.9)"}}>Sign up</NavLink>
                             </div>
                           </div>
                           

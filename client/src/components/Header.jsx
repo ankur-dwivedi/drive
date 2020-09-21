@@ -1,9 +1,11 @@
 import React,{useState} from "react"
+import { useHistory} from 'react-router-dom';
 
 export default function Header(){
 
   const [navItem,setNavItem]=useState("nav__list");
   const [nav,setNav]=useState("burger");
+  let history = useHistory();
 
     return(
       <nav className="nav" onClick={()=>{if(navItem==="nav__list"){
@@ -29,6 +31,9 @@ export default function Header(){
           </li>
           <li className="nav__item">
             <a href="#4" className="nav__link c-green"><img src="img/contact-icon.png" alt=""/></a>
+          </li>
+          <li className="nav__item">
+            <a  className="nav__link c-green" onClick={()=>{localStorage.clear();history.push("/")}}><i class="fa fa-sign-out" aria-hidden="true" style={{color:"white"}}></i></a>
           </li>
         </ul>
       </nav>

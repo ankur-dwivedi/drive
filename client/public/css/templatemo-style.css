@@ -15,9 +15,9 @@ p {
 	line-height: 26px;
 }
 
-a {
+/* a {
 	color: #ff6;
-}
+} */
 
 a:hover {
 	color: #0CF;
@@ -55,7 +55,7 @@ ul {
   margin-bottom: 60px;
   margin-top: 0px;
   font-size: 36px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #fff;
   font-weight: 300;
   text-align: center;
@@ -336,7 +336,7 @@ ul {
 	font-size: 22px;
 	color: #fff;
 	font-weight: 400;
-	text-transform: uppercase;
+	/* text-transform: uppercase; */
 	letter-spacing: 1px;
 	margin-top: 0px;
 	margin-bottom: 10px;
@@ -400,7 +400,7 @@ ul {
   font-size: 22px;
   color: #121212;
   font-weight: 400;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 1px;
   margin-top: 0px;
   margin-bottom: 15px;
@@ -442,7 +442,7 @@ ul {
 }
 
 .project-item {
-  width: 96%;
+  width: 100%;
 }
 
 .project-item img {
@@ -459,7 +459,7 @@ ul {
   margin-right: 15px;
   background-color: #fff;
   padding: 25px 30px;
-  margin-top: -45px;
+  /* margin-top: -45px; */
   position: relative;
   z-index: 2;
 }
@@ -470,7 +470,7 @@ ul {
   font-size: 22px;
   color: #121212;
   font-weight: 500;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   margin-top: 0px;
   margin-bottom: 15px;
   border-bottom: 2px solid #eee;
@@ -594,9 +594,9 @@ ul {
   font-weight: 400;
 }
 
-.footer a {
+/* .footer a {
 	color: #ff6;
-}
+} */
 
 
 /*
@@ -605,7 +605,7 @@ ul {
 ========================================
 */
 
-@media (max-width: 768px){
+@media (max-width: 767px){
   .heading h4 {
     font-size: 22px;
     margin-bottom: 30px;
@@ -670,7 +670,7 @@ ul {
     padding: 0px 30px;
   }
   .project-item  {
-    padding: 0px 120px;
+    padding: 0px 22%;
   }
   .project-item img {
     max-width: 100%;
@@ -682,9 +682,9 @@ ul {
     margin: 0;
     width: 100%;
   }
-  .projects-content .text-content {
+  /* .projects-content .text-content {
     display: none;
-  }
+  } */
   .contact-content .more-info {
     padding: 30px;
     margin-top: 0px;
@@ -946,17 +946,15 @@ body.lb-disable-scrolling {
  *  Owl Carousel - Core
  */
 .owl-carousel {
-  /* display: none; */
   width: 100%;
   -webkit-tap-highlight-color: transparent;
-  /* position relative and z-index fix webkit rendering fonts issue */
   position: relative;
   z-index: 1; }
   .owl-carousel .owl-stage {
     position: relative;
     -ms-touch-action: pan-Y;
     -moz-backface-visibility: hidden;
-    /* fix firefox animation glitch */ }
+    }
   .owl-carousel .owl-stage:after {
     content: ".";
     display: block;
@@ -967,7 +965,6 @@ body.lb-disable-scrolling {
   .owl-carousel .owl-stage-outer {
     position: relative;
     overflow: hidden;
-    /* fix for flashing background */
     -webkit-transform: translate3d(0px, 0px, 0px); }
   .owl-carousel .owl-wrapper,
   .owl-carousel .owl-item {

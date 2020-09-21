@@ -1,11 +1,55 @@
 import React,{useEffect,useState} from "react"
-import { NavLink,useHistory} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
+const axios = require('axios').default;
 
 export default function Login(props){
 
   const [four,setFour]=useState("panel__content");
 
+  const [info,setInfo]=useState(null);
+
   let history = useHistory();
+  const [signup, setSignup] = useState({
+    email: "",
+    password: ""
+  });
+  
+  function handleChange(event) {
+    const { name, value } = event.target; 
+    setSignup(prevSignup => {
+      return {
+        ...prevSignup,
+        [name]: value
+      };
+    });
+    if(info!=null)
+    setInfo(null)
+  }
+
+  function register(){
+    axios.post(" /api/login",{
+     "email": signup.email,
+     "password": signup.password
+    })
+    .then(function (response) {
+      console.log(response)
+      if(response.data==="Sucessfully logged in"){
+      localStorage.setItem("email",signup.email)
+      history.push("/main")
+      }
+      else
+      setInfo(response.data)
+      
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+     
+    });  
+    }
+
 
   
 
@@ -33,27 +77,28 @@ export default function Login(props){
                       <div className="row">
                         <div className="col-md-8">
                           <div className="contat-form">
-                            <form id="contact" action="" method="post">
+                            <div id="contact" >
                              
                               <fieldset>
-                                <input name="email" type="email" className="form-control" id="email" placeholder="Email" required=""/>
+                                <input name="email" onChange={handleChange} value={signup.email} type="email" className="form-control" id="email" placeholder="Email" required=""/>
                               </fieldset>
                               <fieldset>
-                                <input name="password" type="password" className="form-control" id="password" placeholder="Password" required=""/>
+                                <input name="password" onChange={handleChange} value={signup.password} type="password" className="form-control" id="password" placeholder="Password" required=""/>
                               </fieldset>
                               {/* <fieldset>
                                 <textarea name="message" rows="6" className="form-control" id="message" placeholder="Message" required=""></textarea>
                               </fieldset> */}
                               <fieldset>
-                                <button type="submit" id="form-submit" className="btn" onClick={()=>history.push("/main")}>Login</button>
+                                <button  id="form-submit" className="btn" onClick={register}>Login</button>
                               </fieldset>
-                            </form>
+                            </div>
                           </div>
                         </div>
                         <div className="col-md-4">
                           <div className="more-info">
-                            <p>Login to access your douments.<br/><br/>
-                            <em>and add new documents</em></p>
+                            
+                            {info===null?<p>Login to access your douments, and add new documents<br/><em> if not register go to <NavLink to="/signup" color="#fa5252">Signup</NavLink>.</em></p>:info}
+
                           </div>
                         </div>
                       </div>
