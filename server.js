@@ -8,34 +8,8 @@ const multer =require('multer');
 const GridFsStorage=require('multer-gridfs-storage');
 const Grid=require('gridfs-stream');
 const methodOverride = require('method-override');
-const mongodb = require('mongodb');
 const fs = require('fs');
-var mongoClient = mongodb.MongoClient;
 
- 
-// var url ='mongodb+srv://admin-ankur:test123@cluster0-8xn6c.mongodb.net/drive';
- 
-// mongoose.connect(url, function(err, db) {
- 
-//     if (err) {
-//         console.log('Sorry unable to connect to MongoDB Error:', err);
-//     } else {
- 
-//         var bucket = new mongodb.GridFSBucket(db, {
-//             chunkSizeBytes: 1024,
-//             bucketName: 'uploads'
-//         });
- 
-//         bucket.openDownloadStreamByName('ankur@gmail.com-wallpaper.jpg').pipe(
-//             fs.createWriteStream('c:\\demo\\dog.jpg')).on('error',
-//             function(error) {
-//                 console.log('Error:-', error);
-//             }).on('finish', function() {
-//             console.log('done!');
-//             process.exit(0);
-//         });
-//     }
-// });
 
 const port = process.env.PORT || 5000;
 let current_user="current"
@@ -273,22 +247,24 @@ var filename =req.body.filename;
         });
       }
 
-        
+      // 'c:\\demo\\'
           const readstream = gfs.createReadStream(file.filename);
-          readstream.pipe( fs.createWriteStream('c:\\demo\\'+file.filename)).on('finish', function() {
+          readstream.pipe( fs.createWriteStream( __dirname + '/upload/'+file.filename)).on('finish', function() {
           console.log('done!');
-          
-        });
-        readstream.pipe(res)
-  
-      
+          var fileLocation = path.join('./upload',file.filename);
+          res.download(fileLocation, file.filename);
+          });
+        //readstream.pipe(res)
 
     });
-
-    
-
-    
 });  
+
+app.get('/download/:file(*)',(req, res) => {
+  var file = req.params.file;
+  var fileLocation = path.join('./upload',file);
+  console.log(fileLocation);
+  res.download(fileLocation, file);
+  });
 
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files

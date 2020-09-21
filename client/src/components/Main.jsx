@@ -59,11 +59,14 @@ export default function Main(props){
   },[])
 
   function download(file){
+    
     axios.post("/api/file/download",{
       "filename": file
      })
      .then(function (response) {
       console.log(response.data)
+      window.open("https://sleepy-brook-02674.herokuapp.com:5000/download/"+file)
+      // window.open("http://localhost:5000/download/"+file)
      })
      .catch(function (error) {
        console.log(error);
@@ -239,8 +242,7 @@ function upload(){
                       </div>
                       <div className="row">
                         <div className="col-md-12" style={{height:"28rem"}}>
-                          {/* <div className="owl-carousel owl-theme projects-container">
-                            <div> */}
+                         
                             <Carousel responsive={responsive}
                                         showDots={true}
                                         arrows={true}
@@ -261,87 +263,9 @@ function upload(){
                                         renderDotsOutside={true}
                                         >
                                         {data}
-                                        {/* <div>
-                                          <div className="project-item">
-                                            <div className="text-content">
-                                                <h4>Work Smart</h4>
-                                                <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                                <div className="primary-button">
-                                                      <a href="#">Discover More</a>
-                                                </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                            <div>
-                              <div className="project-item">
-                                <div className="text-content">
-                                  <h4>Creative Idea</h4>
-                                  <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="project-item">
-                                <div className="text-content">
-                                  <h4>New Thought</h4>
-                                  <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="project-item">
-                                <div className="text-content">
-                                  <h4>Next Moment</h4>
-                                  <p>Lorem ipsum dolor sit amet, adipis scing elit etiam sit amet ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="project-item">
-                                <div className="text-content">
-                                  <h4>Artwork</h4>
-                                  <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="project-item">
-                                <div className="text-content">
-                                  <h4>Sixth Box</h4>
-                                  <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="project-item">
-                                <div className="text-content">
-                                  <h4>Item #7</h4>
-                                  <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                  <div className="primary-button">
-                                    <a href="#">Discover More</a>
-                                  </div>
-                                </div>
-                              </div>
-                              </div> */}
-                                        </Carousel>
+                                              </Carousel>
                               
-                            {/* </div>
-                          </div> */}
+                            {/*  */}
                         </div>
                       </div>
                     </div>
