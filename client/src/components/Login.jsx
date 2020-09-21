@@ -27,6 +27,7 @@ export default function Login(props){
   }
 
   function register(){
+    setInfo("logging you in...")
     axios.post(" /api/login",{
      "email": signup.email,
      "password": signup.password
