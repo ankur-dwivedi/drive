@@ -277,7 +277,7 @@ var filename =req.body.filename;
           const readstream = gfs.createReadStream(file.filename);
           readstream.pipe( fs.createWriteStream('c:\\demo\\'+file.filename)).on('finish', function() {
           console.log('done!');
-          process.exit(0);});
+        });
   
       
         }catch(err){
