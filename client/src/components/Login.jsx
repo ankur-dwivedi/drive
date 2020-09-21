@@ -85,9 +85,7 @@ export default function Login(props){
                               <fieldset>
                                 <input name="password" onChange={handleChange} value={signup.password} type="password" className="form-control" id="password" placeholder="Password" required=""/>
                               </fieldset>
-                              {/* <fieldset>
-                                <textarea name="message" rows="6" className="form-control" id="message" placeholder="Message" required=""></textarea>
-                              </fieldset> */}
+                             
                               <fieldset>
                                 <button  id="form-submit" className="btn" onClick={register}>Login</button>
                               </fieldset>

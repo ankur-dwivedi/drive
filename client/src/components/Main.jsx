@@ -1,6 +1,7 @@
 import React,{useEffect,useState,useRef} from "react"
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css';
+import { useHistory} from 'react-router-dom';
 const axios = require('axios').default;
 
 export default function Main(props){
@@ -10,38 +11,38 @@ export default function Main(props){
   const [two,setTwo]=useState("panel__content");
   const [three,setThree]=useState("panel__content ");
   const [four,setFour]=useState("panel__content");
+  const [uploadText,setuploadText]=useState("UPLOAD");
+  const [info,setInfo]=useState("Choose a file and click on upload.");
   const [data,setData]=useState([]);
   const input=useRef()
-  
+  const search=useRef()
+  let history = useHistory();
   useEffect(()=>{
-    setData(
-      <div>
-                                          <div className="project-item">
-                                            <div className="text-content">
-                                                <h4>Work Smart</h4>
-                                                <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
-                                                <div className="primary-button">
-                                                      <a href="#">Discover More</a>
-                                                </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                           
-    )
+    if(!localStorage.getItem("email"))
+          history.push("/")
+    loadData()
+  },[])
+
+  function loadData(){
     axios.post("/api/file",{
-      "email": localStorage.getItem("email")
+      "email": localStorage.getItem("email"),
+      "file": search.current.value?search.current.value:""
      })
      .then(function (response) {
       console.log(response.data)
        let temp=[]
        for(let x=0;x<Object.keys(response.data).length;x++){
+         let fileDisplay=response.data[x].filename.substring(response.data[x].filename.indexOf("-")+1)
         temp.push(
                     <div>
                       <div className="project-item">
                         {/* <a href="img/project-item-01.jpg" data-lightbox="image-1"><img src="img/project-item-01.jpg" alt=""/></a> */}
                         <div className="text-content">
-                            <h4>{response.data[x].filename.split("-")[1]}</h4>
-                            <p>Lorem ipsum dolor, adipis scing elit etiam ante vehicula, aliquam mauris in, luctus neque.</p>
+                            <h4>{fileDisplay && fileDisplay.length>17?fileDisplay.substring(0,17)+"...":fileDisplay}</h4>
+                            <br/>
+                             {localStorage.getItem("email")==="admin@gmail.com"?response.data[x].filename.split("-")[0]:""}
+                              <br/> <br/><br/>
+                              {localStorage.getItem("email")==="admin@gmail.com"?"":<br/>}
                             <div className="primary-button">
                                   <a onClick={()=>download(response.data[x].filename)}>Download</a>
                             </div>
@@ -56,7 +57,7 @@ export default function Main(props){
      .catch(function (error) {
        console.log(error);
      });
-  },[])
+  }
 
   function download(file){
     
@@ -130,11 +131,15 @@ const responsive = {
 
 var bodyFormData = new FormData();
 function handleChange(event) {
+  setInfo("Choose a file and click on upload.")
   bodyFormData.append('file', input.current.files[0]);
 }
 
 
 function upload(){
+  if(uploadText==="UPLOAD"){
+    if(input.current.files[0]){
+  setuploadText("uploading...")
   axios.post(" /api/currrent_user",{
     "email": localStorage.getItem("email")
    })
@@ -151,13 +156,22 @@ function upload(){
     headers: {'Content-Type': 'multipart/form-data' }
     })
     .then(function (response) {
-        //handle success
         console.log(response);
+        input.current.value = null
+        setuploadText("UPLOAD")
+        setInfo("Choose a file and click on upload.")
+        loadData()
     })
     .catch(function (response) {
         //handle error
         console.log(response);
     });
+  }
+  else
+  setInfo("Choose a file to continue...")
+  }
+  else
+  setInfo("File is uploading please wait...")
   }
 
     return(
@@ -236,13 +250,25 @@ function upload(){
               <div className="container">
                 <div className="row">
                   <div className="col-md-8 col-md-offset-2">
-                    <div className="projects-content">
-                      <div className="heading">
-                        <h4>Recent Projects</h4>
+                    <div className="projects-content " >
+                      <div className="heading" style={{paddingTop:"10%"}}>
+                        <h4>Documents</h4>
+                        <div style={{width: "75%",paddingLeft:"25%"}}>
+                          <div className="contat-form ">
+                            <div id="contact" >                  
+                            <input name="search" ref={search} type="text" className="form-control" id="email" placeholder="Search" required=""/>
+                             <br/>
+                                <button className="btn" onClick={loadData} style={{marginBottom:"20%"}}>Search</button>
+                               
+                            </div>
+                          </div>
+                        </div>
+
+                            
                       </div>
                       <div className="row">
                         <div className="col-md-12" style={{height:"28rem"}}>
-                         
+                    
                             <Carousel responsive={responsive}
                                         showDots={true}
                                         arrows={true}
@@ -264,8 +290,7 @@ function upload(){
                                         >
                                         {data}
                                               </Carousel>
-                              
-                            {/*  */}
+                                             
                         </div>
                       </div>
                     </div>
@@ -293,7 +318,7 @@ function upload(){
                               <input type="file" name="file" id="file" onChange={handleChange} ref={input} class="custom-file-input" accept=".pdf"/>
                               {/* <label for="file" class="custom-file-label">Choose File</label> */}
                               <fieldset>
-                                <button  id="form-submit" className="btn" onClick={upload}>Upload</button>
+                                <button  id="form-submit" className="btn" onClick={upload}>{uploadText}</button>
                               </fieldset>
                             </div>
                             {/* </form> */}
@@ -301,7 +326,7 @@ function upload(){
                         </div>
                         <div className="col-md-4">
                           <div className="more-info">
-                            <p>Only pdf documents can be uploaded.</p>
+                            <p>{info}</p>
                           </div>
                         </div>
                       </div>

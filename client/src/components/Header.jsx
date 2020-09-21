@@ -30,7 +30,7 @@ export default function Header(){
             <a href="#3" className="nav__link c-red"><img src="img/projects-icon.png" alt=""/></a>
           </li>
           <li className="nav__item">
-            <a href="#4" className="nav__link c-green"><img src="img/contact-icon.png" alt=""/></a>
+            <a href="#4" className="nav__link c-green"><i class="fa fa-plus" aria-hidden="true" style={{color:"white"}}></i></a>
           </li>
           <li className="nav__item">
             <a  className="nav__link c-green" onClick={()=>{localStorage.clear();history.push("/")}}><i class="fa fa-sign-out" aria-hidden="true" style={{color:"white"}}></i></a>

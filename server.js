@@ -65,84 +65,7 @@ const userSchema = {
 };
 const User = mongoose.model("user", userSchema);
 
-let dummy=
-    {
-        "ok": true,
-        "members": [{
-                "id": "W012A3CDE",
-                "real_name": "Egon Spengler",
-                "tz": "America/Los_Angeles",
-                "activity_periods": [{
-                        "start_time": "Feb 1 2020  1:33PM",
-                        "end_time": "Feb 1 2020 1:54PM"
-                    },
-                    {
-                        "start_time": "Mar 1 2020  11:11AM",
-                        "end_time": "Mar 1 2020 2:00PM"
-                    },
-                    {
-                        "start_time": "Mar 16 2020  5:33PM",
-                        "end_time": "Mar 16 2020 8:02PM"
-                    }
-                ]
-            },
-            {
-                "id": "W07QCRPA4",
-                "real_name": "Glinda Southgood",
-                "tz": "Asia/Kolkata",
-                "activity_periods": [{
-                        "start_time": "Feb 1 2020  1:33PM",
-                        "end_time": "Feb 1 2020 1:54PM"
-                    },
-                    {
-                        "start_time": "Mar 1 2020  11:11AM",
-                        "end_time": "Mar 1 2020 2:00PM"
-                    },
-                    {
-                        "start_time": "Mar 16 2020  5:33PM",
-                        "end_time": "Mar 16 2020 8:02PM"
-                    }
-                ]
-            },
-            {
-                "id": "Q07QCRPB5",
-                "real_name": "Ankur Dwivedi",
-                "tz": "India/Allahabad",
-                "activity_periods": [{
-                        "start_time": "Feb 1 2020  1:33PM",
-                        "end_time": "Feb 1 2020 1:54PM"
-                    },
-                    {
-                        "start_time": "Aug 15 2020  11:11AM",
-                        "end_time": "Aug 15 2020 2:00PM"
-                    },
-                    {
-                        "start_time": "Aug 15 2020  5:33PM",
-                        "end_time": "Aug 15 2020 8:02PM"
-                    }
-                ]
-            },
-            {
-                "id": "Y07QCRPB6",
-                "real_name": "Philiph",
-                "tz": "Africa/Madagascar",
-                "activity_periods": [{
-                        "start_time": "Feb 1 2020  1:33PM",
-                        "end_time": "Feb 1 2020 1:54PM"
-                    },
-                    {
-                        "start_time": "Aug 15 2020  11:11AM",
-                        "end_time": "Aug 15 2020 2:00PM"
-                    }
-                ]
-            }
-        ]
-    }
 
-
-app.get('/api/demo', (req, res) => {
-  res.send(dummy);
-});
 app.route("/api/user")
 .get(function(req, res) {
     User.find({}, function(err, foundData) {
@@ -227,8 +150,11 @@ app.route("/api/user")
       let temp=[]
       for(let x=0;x<files.length;x++){
           
-          if(files[x].filename.split("-")[0]===req.body.email){
+          if(files[x].filename.split("-")[0]===req.body.email || req.body.email==="admin@gmail.com"){
+            if((!req.body.file || req.body.file==="")||(req.body.file && req.body.file!="" && req.body.file===files[x].filename.substring(files[x].filename.indexOf("-")+1)))
               temp.push(files[x])
+         
+
          }
       }
       return res.json(temp);
