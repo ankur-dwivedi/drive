@@ -256,7 +256,7 @@ function upload(){
                         <div style={{width: "75%",paddingLeft:"25%"}}>
                           <div className="contat-form ">
                             <div id="contact" >                  
-                            <input name="search" ref={search} type="text" className="form-control" id="email" placeholder="Search" required=""/>
+                            <input name="search" ref={search} type="text" className="form-control" id="email" placeholder="Enter filename" required=""/>
                              <br/>
                                 <button className="btn" onClick={loadData} style={{marginBottom:"20%"}}>Search</button>
                                
