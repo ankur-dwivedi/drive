@@ -63,7 +63,7 @@ export default function Main(props){
       "filename": file
      })
      .then(function (response) {
-      
+      console.log(response.data)
      })
      .catch(function (error) {
        console.log(error);

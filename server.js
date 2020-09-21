@@ -8,13 +8,41 @@ const multer =require('multer');
 const GridFsStorage=require('multer-gridfs-storage');
 const Grid=require('gridfs-stream');
 const methodOverride = require('method-override');
-const { assert } = require('console');
+const mongodb = require('mongodb');
+const fs = require('fs');
+var mongoClient = mongodb.MongoClient;
+
+ 
+// var url ='mongodb+srv://admin-ankur:test123@cluster0-8xn6c.mongodb.net/drive';
+ 
+// mongoose.connect(url, function(err, db) {
+ 
+//     if (err) {
+//         console.log('Sorry unable to connect to MongoDB Error:', err);
+//     } else {
+ 
+//         var bucket = new mongodb.GridFSBucket(db, {
+//             chunkSizeBytes: 1024,
+//             bucketName: 'uploads'
+//         });
+ 
+//         bucket.openDownloadStreamByName('ankur@gmail.com-wallpaper.jpg').pipe(
+//             fs.createWriteStream('c:\\demo\\dog.jpg')).on('error',
+//             function(error) {
+//                 console.log('Error:-', error);
+//             }).on('finish', function() {
+//             console.log('done!');
+//             process.exit(0);
+//         });
+//     }
+// });
 
 const port = process.env.PORT || 5000;
 let current_user="current"
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(require('connect-livereload')());
 
 mongoose.connect("mongodb+srv://admin-ankur:test123@cluster0-8xn6c.mongodb.net/drive", {
   useUnifiedTopology: true,
@@ -237,23 +265,31 @@ app.route("/api/user")
     // Check file exist on MongoDB
 
 var filename =req.body.filename;
+    gfs.files.findOne({ filename:filename }, (err, file) => {
+      // Check if file
+      if (!file || file.length === 0) {
+        return res.status(404).json({
+          err: 'No file exists'
+        });
+      }
 
-    gfs.exist({ _id:"5f67e0bbdcfe01310c5b5819" }, (err, file) => {
-    //     if (err || !file) {
-    //         res.status(404).send('File Not Found');
-    // return
-    //     } 
+        try{
+          const readstream = gfs.createReadStream(file.filename);
+          readstream.pipe( fs.createWriteStream('c:\\demo\\'+file.filename)).on('finish', function() {
+          console.log('done!');
+          process.exit(0);});
   
-  // var readstream = gfs.createReadStream({ _id:"5f67e0bbdcfe01310c5b5819"  });
-  const readstream = gfs.createReadStream(file.filename);
-      readstream.pipe(res);
-  // readstream.pipe(gfs.createWriteStream('/output.pdf')).on('error',function(error){
-  //   assert.ifError(error);
-  // }).on('finish',function(){
-  //   console.log('done!');
-  //   process.exit(0);
-  // })
+      
+        }catch(err){
+
+        }
+      
+
     });
+
+    
+
+    
 });  
 
 if (process.env.NODE_ENV === 'production') {
