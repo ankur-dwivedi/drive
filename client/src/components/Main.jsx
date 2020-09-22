@@ -66,8 +66,8 @@ export default function Main(props){
      })
      .then(function (response) {
       console.log(response.data)
-      window.open("https://sleepy-brook-02674.herokuapp.com/download/"+file)
-      // window.open("http://localhost:5000/download/"+file)
+      //window.open("https://sleepy-brook-02674.herokuapp.com/download/"+file)
+      window.open("http://localhost:5000/download/"+file)
      })
      .catch(function (error) {
        console.log(error);
