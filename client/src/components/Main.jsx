@@ -43,8 +43,8 @@ export default function Main(props){
                              {localStorage.getItem("email")==="admin@gmail.com"?response.data[x].filename.split("-")[0]:""}
                               <br/> <br/><br/>
                               {localStorage.getItem("email")==="admin@gmail.com"?"":<br/>}
-                            <div className="primary-button">
-                                  <a onClick={()=>download(response.data[x].filename)}>Download</a>
+                            <div className="primary-button" >
+                                  <a style={{cursor:"pointer"}} onClick={()=>download(response.data[x].filename)}>Download</a>
                             </div>
                         </div>
                       </div>
